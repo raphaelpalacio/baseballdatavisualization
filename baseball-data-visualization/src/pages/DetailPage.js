@@ -1,105 +1,98 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { loadExcelData } from '../data/dataLoader';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+import loadExcelData from '../data/dataLoader';
 
-const DetailPage = () => {
+function DetailPage() {
   const { id } = useParams();
-  const [consolidatedData, setConsolidatedData] = useState([]);
+  const location = useLocation();
+  const isBatter = location.pathname.includes("/batter");
+
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const jsonData = await loadExcelData('/BattedBallData.xlsx');
-
-      // Filter data by the selected ID (either BATTER_ID or PITCHER_ID)
-      const filteredData = jsonData.filter(
-        (d) => String(d.BATTER_ID) === id || String(d.PITCHER_ID) === id
-      );
-
-      // Consolidate entries by unique BATTER_ID and PITCHER_ID combinations
-      const consolidated = [];
-      const uniqueEntries = {};
-
-      filteredData.forEach((entry) => {
-        const key = `${entry.BATTER_ID}-${entry.PITCHER_ID}`;
-        if (!uniqueEntries[key]) {
-          uniqueEntries[key] = {
-            ...entry,
-          };
-          consolidated.push(uniqueEntries[key]);
-        }
-      });
-
-      setConsolidatedData(consolidated);
+      try {
+        const excelData = await loadExcelData('/BattedBallData.xlsx');
+        
+        // Filter the data based on BATTER_ID or PITCHER_ID
+        const filteredData = excelData.filter(row => 
+          isBatter ? row.BATTER_ID === parseInt(id) : row.PITCHER_ID === parseInt(id)
+        );
+        
+        setData(filteredData);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
     };
 
-    fetchData();
-  }, [id]);
+    fetchData(); // Only run this function when `id` or `isBatter` changes
+  }, [id, isBatter]);
 
   return (
     <div>
-      <Typography variant="h5" component="div" style={{ margin: '16px 0' }}>
-        Detail Page for {id.includes('B') ? 'BATTER_ID' : 'PITCHER_ID'} {id}
-      </Typography>
-      <TableContainer component={Paper} style={{ marginBottom: '16px' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>BATTER_ID</TableCell>
-              <TableCell>Batter Name</TableCell>
-              <TableCell>PITCHER_ID</TableCell>
-              <TableCell>Pitcher Name</TableCell>
-              <TableCell>Game Date</TableCell>
-              <TableCell>Exit Velocity</TableCell>
-              <TableCell>Launch Angle</TableCell>
-              <TableCell>Exit Direction</TableCell>
-              <TableCell>Hit Distance</TableCell>
-              <TableCell>Hang Time</TableCell>
-              <TableCell>Spin Rate</TableCell>
-              <TableCell>Play Outcome</TableCell>
-              <TableCell>Video Link</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {consolidatedData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.BATTER_ID}</TableCell>
-                <TableCell>{row.BATTER}</TableCell>
-                <TableCell>{row.PITCHER_ID}</TableCell>
-                <TableCell>{row.PITCHER}</TableCell>
-                <TableCell>{row.GAME_DATE}</TableCell>
-                <TableCell>{row.EXIT_VELO}</TableCell>
-                <TableCell>{row.LAUNCH_ANGLE}</TableCell>
-                <TableCell>{row.EXIT_DIRECTION}</TableCell>
-                <TableCell>{row.HIT_DISTANCE}</TableCell>
-                <TableCell>{row.HANG_TIME}</TableCell>
-                <TableCell>{row.HIT_SPIN_RATE}</TableCell>
-                <TableCell>{row.PLAY_OUTCOME}</TableCell>
-                <TableCell>
-                  {row.VIDEO_LINK ? (
-                    <a href={row.VIDEO_LINK} target="_blank" rel="noopener noreferrer">
-                      Watch
-                    </a>
-                  ) : (
-                    "N/A"
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <h1>Detail Page for {isBatter ? "BATTER_ID" : "PITCHER_ID"} {id}</h1>
+      <table>
+        <thead>
+          <tr>
+            {isBatter ? (
+              <>
+                <th>BATTER_ID</th>
+                <th>Batter Name</th>
+                <th>PITCHER_ID</th>
+                <th>Pitcher Name</th>
+              </>
+            ) : (
+              <>
+                <th>PITCHER_ID</th>
+                <th>Pitcher Name</th>
+                <th>BATTER_ID</th>
+                <th>Batter Name</th>
+              </>
+            )}
+            <th>Game Date</th>
+            <th>Exit Velocity</th>
+            <th>Launch Angle</th>
+            <th>Exit Direction</th>
+            <th>Hit Distance</th>
+            <th>Hang Time</th>
+            <th>Spin Rate</th>
+            <th>Play Outcome</th>
+            <th>Video Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, index) => (
+            <tr key={index}>
+              {isBatter ? (
+                <>
+                  <td>{row.BATTER_ID}</td>
+                  <td>{row.BATTER}</td>
+                  <td>{row.PITCHER_ID}</td>
+                  <td>{row.PITCHER}</td>
+                </>
+              ) : (
+                <>
+                  <td>{row.PITCHER_ID}</td>
+                  <td>{row.PITCHER}</td>
+                  <td>{row.BATTER_ID}</td>
+                  <td>{row.BATTER}</td>
+                </>
+              )}
+              <td>{row.GAME_DATE}</td>
+              <td>{row.EXIT_VELO}</td>
+              <td>{row.LAUNCH_ANGLE}</td>
+              <td>{row.EXIT_DIRECTION}</td>
+              <td>{row.HIT_DISTANCE}</td>
+              <td>{row.HANG_TIME}</td>
+              <td>{row.HIT_SPIN_RATE}</td>
+              <td>{row.PLAY_OUTCOME}</td>
+              <td><a href={row.VIDEO_LINK} target="_blank" rel="noopener noreferrer">Watch</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-};
+}
 
 export default DetailPage;
