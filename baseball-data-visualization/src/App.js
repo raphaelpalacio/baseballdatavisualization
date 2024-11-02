@@ -1,7 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import DetailPage from './pages/DetailPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
+import DetailPage from './components/DetailPage';
 import Header from './components/Header';
 
 function App() {
@@ -9,8 +9,9 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/detail/:type/:id" element={<DetailPage />} /> {/* Pass 'type' and 'id' */}
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/batter/:id" element={<DetailPage />} />
+        <Route path="/pitcher/:id" element={<DetailPage />} />
       </Routes>
     </Router>
   );
