@@ -32,8 +32,8 @@ const HomePage = () => {
     setSearchQuery(event.target.value.toLowerCase());
   };
 
-  const handleRowClick = (batterId) => {
-    navigate(`/batter/${batterId}`);
+  const handleRowClick = (id, isBatter) => {
+    navigate(isBatter ? `/batter/${id}` : `/pitcher/${id}`);
   };
 
   const filteredData = data.filter(
@@ -58,22 +58,11 @@ const HomePage = () => {
 
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
-            {/* <TableRow>
-              <TableCell>BATTER_ID</TableCell>
-              <TableCell>PITCHER_ID</TableCell>
-            </TableRow> */}
-          </TableHead>
           <TableBody>
             {filteredData.map((row) => (
-              <TableRow
-                key={row.BATTER_ID + row.PITCHER_ID}
-                hover
-                style={{ cursor: 'pointer' }}
-                onClick={() => handleRowClick(row.BATTER_ID)}
-              >
-                <TableCell>{row.BATTER_ID}</TableCell>
-                <TableCell>{row.PITCHER_ID}</TableCell>
+              <TableRow key={row.BATTER_ID + row.PITCHER_ID} hover style={{ cursor: 'pointer' }}>
+                <TableCell onClick={() => handleRowClick(row.BATTER_ID, true)}>{row.BATTER_ID}</TableCell>
+                <TableCell onClick={() => handleRowClick(row.PITCHER_ID, false)}>{row.PITCHER_ID}</TableCell>
               </TableRow>
             ))}
           </TableBody>
