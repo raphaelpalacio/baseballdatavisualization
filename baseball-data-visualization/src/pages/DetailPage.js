@@ -1,98 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import loadExcelData from '../data/dataLoader';
+import './DetailPage.css';
 
-function DetailPage() {
+const DetailPage = ({ isBatter }) => {
   const { id } = useParams();
-  const location = useLocation();
-  const isBatter = location.pathname.includes("/batter");
-
   const [data, setData] = useState([]);
+  const title = isBatter ? `Detail Page for BATTER_ID ${id}` : `Detail Page for PITCHER_ID ${id}`;
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const excelData = await loadExcelData('/BattedBallData.xlsx');
-        
-        // Filter the data based on BATTER_ID or PITCHER_ID
-        const filteredData = excelData.filter(row => 
-          isBatter ? row.BATTER_ID === parseInt(id) : row.PITCHER_ID === parseInt(id)
-        );
-        
-        setData(filteredData);
-      } catch (error) {
-        console.error("Error loading data:", error);
-      }
+      const jsonData = await loadExcelData('/BattedBallData.xlsx');
+      const filteredData = jsonData.filter((row) =>
+        isBatter ? row.BATTER_ID.toString() === id : row.PITCHER_ID.toString() === id
+      );
+      setData(filteredData);
     };
 
-    fetchData(); // Only run this function when `id` or `isBatter` changes
+    fetchData();
   }, [id, isBatter]);
 
   return (
     <div>
-      <h1>Detail Page for {isBatter ? "BATTER_ID" : "PITCHER_ID"} {id}</h1>
-      <table>
+      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>{title}</h2>
+      <table className="detail-table">
         <thead>
           <tr>
-            {isBatter ? (
-              <>
-                <th>BATTER_ID</th>
-                <th>Batter Name</th>
-                <th>PITCHER_ID</th>
-                <th>Pitcher Name</th>
-              </>
-            ) : (
-              <>
-                <th>PITCHER_ID</th>
-                <th>Pitcher Name</th>
-                <th>BATTER_ID</th>
-                <th>Batter Name</th>
-              </>
-            )}
-            <th>Game Date</th>
-            <th>Exit Velocity</th>
-            <th>Launch Angle</th>
-            <th>Exit Direction</th>
-            <th>Hit Distance</th>
-            <th>Hang Time</th>
-            <th>Spin Rate</th>
-            <th>Play Outcome</th>
-            <th>Video Link</th>
+            <th className="headerStyle">BATTER_ID</th>
+            <th className="headerStyle">Batter Name</th>
+            <th className="headerStyle">PITCHER_ID</th>
+            <th className="headerStyle">Pitcher Name</th>
+            <th className="headerStyle">Game Date</th>
+            <th className="headerStyle">Exit Velocity</th>
+            <th className="headerStyle">Launch Angle</th>
+            <th className="headerStyle">Exit Direction</th>
+            <th className="headerStyle">Hit Distance</th>
+            <th className="headerStyle">Hang Time</th>
+            <th className="headerStyle">Spin Rate</th>
+            <th className="headerStyle">Play Outcome</th>
+            <th className="headerStyle">Video Link</th>
           </tr>
         </thead>
         <tbody>
           {data.map((row, index) => (
             <tr key={index}>
-              {isBatter ? (
-                <>
-                  <td>{row.BATTER_ID}</td>
-                  <td>{row.BATTER}</td>
-                  <td>{row.PITCHER_ID}</td>
-                  <td>{row.PITCHER}</td>
-                </>
-              ) : (
-                <>
-                  <td>{row.PITCHER_ID}</td>
-                  <td>{row.PITCHER}</td>
-                  <td>{row.BATTER_ID}</td>
-                  <td>{row.BATTER}</td>
-                </>
-              )}
-              <td>{row.GAME_DATE}</td>
-              <td>{row.EXIT_VELO}</td>
-              <td>{row.LAUNCH_ANGLE}</td>
-              <td>{row.EXIT_DIRECTION}</td>
-              <td>{row.HIT_DISTANCE}</td>
-              <td>{row.HANG_TIME}</td>
-              <td>{row.HIT_SPIN_RATE}</td>
-              <td>{row.PLAY_OUTCOME}</td>
-              <td><a href={row.VIDEO_LINK} target="_blank" rel="noopener noreferrer">Watch</a></td>
+              <td className="cellStyle">{row.BATTER_ID}</td>
+              <td className="cellStyle">{row.Batter || row['Batter Name']}</td>
+              <td className="cellStyle">{row.PITCHER_ID}</td>
+              <td className="cellStyle">{row.Pitcher || row['Pitcher Name']}</td>
+              <td className="cellStyle">{row.GAME_DATE || row['Game Date']}</td>
+              <td className="cellStyle">{row.EXIT_VELOCITY || row['Exit Velocity']}</td>
+              <td className="cellStyle">{row.LAUNCH_ANGLE || row['Launch Angle']}</td>
+              <td className="cellStyle">{row.EXIT_DIRECTION || row['Exit Direction']}</td>
+              <td className="cellStyle">{row.HIT_DISTANCE || row['Hit Distance']}</td>
+              <td className="cellStyle">{row.HANG_TIME || row['Hang Time']}</td>
+              <td className="cellStyle">{row.SPIN_RATE || row['Spin Rate']}</td>
+              <td className="cellStyle">{row.PLAY_OUTCOME || row['Play Outcome']}</td>
+              <td className="cellStyle">
+                <a href={row.VIDEO_LINK || row['Video Link']} target="_blank" rel="noopener noreferrer">
+                  Watch
+                </a>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
-}
+};
 
 export default DetailPage;
