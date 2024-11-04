@@ -6,20 +6,28 @@ import '../styles/DetailPage.css';
 const DetailPage = ({ isBatter }) => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-  const title = isBatter ? `Detail Page for BATTER_ID ${id}` : `Detail Page for PITCHER_ID ${id}`;
+  const [titleName, setTitleName] = useState(""); // State to hold the name for the title
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch all data to display each instance of the BATTER_ID or PITCHER_ID
-      const jsonData = await loadExcelData('/BattedBallData.xlsx', false);
+      const jsonData = await loadExcelData('/BattedBallData.xlsx');
       const filteredData = jsonData.filter((row) =>
         isBatter ? row.BATTER_ID.toString() === id : row.PITCHER_ID.toString() === id
       );
+
       setData(filteredData);
+
+      // Set the title name based on the first matched record
+      if (filteredData.length > 0) {
+        const name = isBatter ? filteredData[0]['Batter Name'] : filteredData[0]['Pitcher Name'];
+        setTitleName(name);
+      }
     };
 
     fetchData();
   }, [id, isBatter]);
+
+  const title = isBatter ? `Detail Page for BATTER: ${titleName}` : `Detail Page for PITCHER: ${titleName}`;
 
   return (
     <div>
