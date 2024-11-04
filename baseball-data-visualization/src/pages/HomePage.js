@@ -28,11 +28,19 @@ const HomePage = () => {
       const uniqueData = [];
 
       jsonData.forEach(row => {
-        // Check if BATTER_ID or PITCHER_ID has already been added
-        if (!uniqueBatters.has(row.BATTER_ID) && !uniquePitchers.has(row.PITCHER_ID)) {
-          uniqueBatters.add(row.BATTER_ID);
-          uniquePitchers.add(row.PITCHER_ID);
-          uniqueData.push(row);
+        // Exclude rows with placeholders or undefined BATTER_ID and PITCHER_ID
+        if (
+          row.BATTER_ID !== "BATTER_ID" &&
+          row.PITCHER_ID !== "PITCHER_ID" &&
+          row.BATTER_ID &&
+          row.PITCHER_ID
+        ) {
+          const key = `${row.BATTER_ID}-${row.PITCHER_ID}`;
+          if (!uniqueBatters.has(row.BATTER_ID) && !uniquePitchers.has(row.PITCHER_ID)) {
+            uniqueBatters.add(row.BATTER_ID);
+            uniquePitchers.add(row.PITCHER_ID);
+            uniqueData.push(row);
+          }
         }
       });
 
@@ -90,7 +98,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-
-
-
