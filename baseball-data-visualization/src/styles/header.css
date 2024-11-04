@@ -17,7 +17,6 @@
     flex-grow: 1;
 }
 
-/* Button styling for Home button */
 .header-button {
     color: white; /* Ensures text in the button is white */
     text-decoration: none;
