@@ -8,11 +8,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper
-//   Typography,
-//   Toolbar,
+  Paper,
+  Toolbar,
+  Typography,
 } from '@mui/material';
-import '../styles/theme.css'; // Ensure this path is correct based on your file structure
+import '../styles/theme.css';
 
 const HomePage = () => {
   const [data, setData] = useState([]);
@@ -23,7 +23,6 @@ const HomePage = () => {
       const jsonData = await loadExcelData('/BattedBallData.xlsx');
       setData(jsonData);
     };
-
     fetchData();
   }, []);
 
@@ -31,36 +30,44 @@ const HomePage = () => {
     navigate(isBatter ? `/batter/${id}` : `/pitcher/${id}`);
   };
 
+  // Filter the data to keep unique BATTER_ID and PITCHER_ID combinations
+  const uniqueData = data.filter((value, index, self) => 
+    index === self.findIndex((t) => (
+      t.BATTER_ID === value.BATTER_ID && t.PITCHER_ID === value.PITCHER_ID
+    ))
+  );
+
   return (
     <div className="table-container">
-      {/* <Toolbar>
-        <Typography variant="h5" component="div" className="header" style={{ textAlign: 'center', marginBottom: '20px' }}>
+      <Toolbar className="header">
+        <Typography variant="h5" component="div" style={{ flexGrow: 1 }}>
           BattedBallData List
         </Typography>
-      </Toolbar> */}
-
-      <TableContainer component={Paper} className="table-container">
-        <Table className="table">
+      </Toolbar>
+      <TableContainer component={Paper} className="table">
+        <Table>
           <TableHead>
             <TableRow>
-              <TableCell className="header" style={{ backgroundColor: '#CE1141', fontWeight: 'bold' }}>BATTER_ID</TableCell>
-              <TableCell className="header" style={{ backgroundColor: '#CE1141', fontWeight: 'bold' }}>PITCHER_ID</TableCell>
+              <TableCell className="headerCell table th">BATTER_ID</TableCell>
+              <TableCell className="headerCell table th">PITCHER_ID</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row, index) => (
-              <TableRow key={index} hover className="table-row">
+            {uniqueData.map((row, index) => (
+              <TableRow
+                key={index}
+                hover
+                onClick={() => handleRowClick(row.BATTER_ID, true)}
+                style={{ cursor: 'pointer' }}
+                className="table-row"
+              >
+                <TableCell className="table td">{row.BATTER_ID}</TableCell>
                 <TableCell
-                  onClick={() => handleRowClick(row.BATTER_ID, true)}
-                  className="cellStyle"
-                  style={{ cursor: 'pointer' }}
-                >
-                  {row.BATTER_ID}
-                </TableCell>
-                <TableCell
-                  onClick={() => handleRowClick(row.PITCHER_ID, false)}
-                  className="cellStyle"
-                  style={{ cursor: 'pointer' }}
+                  className="table td"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRowClick(row.PITCHER_ID, false);
+                  }}
                 >
                   {row.PITCHER_ID}
                 </TableCell>
