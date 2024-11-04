@@ -21,27 +21,30 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const jsonData = await loadExcelData('/BattedBallData.xlsx');
-      setData(jsonData);
+      
+      // Filter data to keep only unique BATTER_ID and PITCHER_ID separately
+      const uniqueBatters = new Set();
+      const uniquePitchers = new Set();
+      const uniqueData = [];
+
+      jsonData.forEach(row => {
+        // Check if BATTER_ID or PITCHER_ID has already been added
+        if (!uniqueBatters.has(row.BATTER_ID) && !uniquePitchers.has(row.PITCHER_ID)) {
+          uniqueBatters.add(row.BATTER_ID);
+          uniquePitchers.add(row.PITCHER_ID);
+          uniqueData.push(row);
+        }
+      });
+
+      setData(uniqueData);
     };
+
     fetchData();
   }, []);
 
   const handleRowClick = (id, isBatter) => {
     navigate(isBatter ? `/batter/${id}` : `/pitcher/${id}`);
   };
-
-  // Filter data to keep only unique BATTER_ID and PITCHER_ID combinations
-  const uniqueDataMap = new Map();
-  
-  data.forEach(row => {
-    const key = `${row.BATTER_ID}-${row.PITCHER_ID}`;
-    if (!uniqueDataMap.has(key)) {
-      uniqueDataMap.set(key, row);
-    }
-  });
-
-  // Convert the Map values to an array to use for rendering
-  const uniqueData = Array.from(uniqueDataMap.values());
 
   return (
     <div className="homePage">
@@ -59,7 +62,7 @@ const HomePage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {uniqueData.map((row, index) => (
+            {data.map((row, index) => (
               <TableRow
                 key={index}
                 hover

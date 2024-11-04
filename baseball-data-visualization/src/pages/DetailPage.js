@@ -10,7 +10,8 @@ const DetailPage = ({ isBatter }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const jsonData = await loadExcelData('/BattedBallData.xlsx');
+      // Fetch all data to display each instance of the BATTER_ID or PITCHER_ID
+      const jsonData = await loadExcelData('/BattedBallData.xlsx', false);
       const filteredData = jsonData.filter((row) =>
         isBatter ? row.BATTER_ID.toString() === id : row.PITCHER_ID.toString() === id
       );
@@ -92,6 +93,5 @@ const DetailPage = ({ isBatter }) => {
     </div>
   );
 };
+
 export default DetailPage;
-
-
