@@ -1,4 +1,3 @@
-/* Set white text color for "Watch" link in detail table */
 .detail-table a {
   color: white; /* Force the link color to be white */
   text-decoration: underline;
@@ -13,7 +12,6 @@
   text-decoration: underline;
 }
 
-/* Additional styling to make table look like an Excel sheet */
 .table-container {
   width: 100%;
   overflow-x: auto;
