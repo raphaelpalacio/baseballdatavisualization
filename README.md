@@ -3,7 +3,8 @@
 ```markdown
 # Baseball Data Dashboard
 
-This project is a web application for visualizing baseball data, including information about batters and pitchers. The app was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and uses Material UI for styling and components.
+This project is a web application for visualizing baseball data, including information about batters and pitchers.
+The app was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and uses Material UI for styling and components.
 
 ## Features
 
