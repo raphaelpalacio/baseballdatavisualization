@@ -10,7 +10,7 @@ const Header = () => {
         <Typography variant="h6" className="header-title">
           Baseball Data Dashboard
         </Typography>
-        <Button className="header-button" component={Link} to="/">
+        <Button color="inherit" component={Link} to="/" className="header-button">
           Home
         </Button>
       </Toolbar>
