@@ -1,4 +1,4 @@
-Here's the `README.md` content in Markdown format:
+
 
 ```markdown
 # Baseball Data Dashboard
