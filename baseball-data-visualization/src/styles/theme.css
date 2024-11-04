@@ -1,7 +1,7 @@
 /* Apply a navy background color to the entire page */
 html, body {
     background-color: #13274F; /* Dark Navy */
-    color: white;
+    color: white; /* Ensure all text defaults to white */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -40,12 +40,12 @@ html, body {
 .dataTable {
     width: 100%;
     border-collapse: collapse;
-    color: white;
+    color: white; /* Ensure table text is white */
 }
 
 .headerCell {
     background-color: #CE1141; /* Braves Red for table header */
-    color: white;
+    color: white !important; /* Enforce white color in header */
     padding: 10px;
     border: 1px solid #f5f5f5;
     font-weight: bold;
@@ -54,7 +54,7 @@ html, body {
 
 .dataCell {
     background-color: #13274F; /* Dark Navy for table cells */
-    color: white;
+    color: white !important; /* Ensure cell text remains white */
     padding: 8px;
     border: 1px solid #f5f5f5;
     text-align: center;
@@ -66,14 +66,14 @@ html, body {
 }
 
 /* Style for unique elements on Home Page */
-.home-page-container .headerCell, 
-.home-page-container .dataCell, 
-.home-page-container .title, 
-.home-page-container .pageTitle {
-    color: white;
+.homePage .headerCell, 
+.homePage .dataCell, 
+.homePage .title, 
+.homePage .pageTitle {
+    color: white !important; /* Force white color */
 }
 
-.home-page-container .title {
+.homePage .title {
     font-weight: bold;
     font-size: 1.2em;
 }
