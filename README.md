@@ -1,5 +1,3 @@
-
-
 ```markdown
 # Baseball Data Dashboard
 
@@ -84,4 +82,3 @@ The project uses Material UI for UI components and custom CSS for theme styling.
 ## Learn More
 
 To learn more about `Create React App`, visit the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started). For React, check out the [React documentation](https://reactjs.org/).
-```
