@@ -1,56 +1,43 @@
-/* DetailPage.css */
-
-/* Apply navy background and white text */
-body {
-  background-color: #13274F; /* Dark Navy */
-  color: white;
-  font-family: Arial, sans-serif;
+/* Set white text color for "Watch" link in detail table */
+.detail-table a {
+  color: white; /* Force the link color to be white */
+  text-decoration: underline;
 }
 
-/* Center-align title with bold and larger font size */
-h2 {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: white;
+.detail-table a:visited {
+  color: white; /* Ensure visited links remain white */
 }
 
-/* Table styling to mimic Excel sheet with white borders */
+.detail-table a:hover {
+  color: #CE1141; /* Optional: Braves Red on hover */
+  text-decoration: underline;
+}
+
+/* Additional styling to make table look like an Excel sheet */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .detail-table {
   width: 100%;
   border-collapse: collapse;
+  color: white;
 }
 
-/* Red background with white text for header cells */
-.detail-table th {
-  background-color: #CE1141; /* Braves Red */
+.headerStyle {
+  background-color: #CE1141; /* Braves Red for headers */
   color: white;
   padding: 10px;
-  border: 1px solid white;
+  border: 1px solid #f5f5f5;
   font-weight: bold;
   text-align: center;
 }
 
-/* White borders for all cells, with navy background for regular cells */
-.detail-table td {
-  background-color: #13274F; /* Dark Navy */
+.cellStyle {
+  background-color: #13274F; /* Dark Navy for cells */
   color: white;
   padding: 8px;
-  border: 1px solid white;
+  border: 1px solid #f5f5f5;
   text-align: center;
-}
-
-/* Excel-style hover effect for rows */
-.detail-table tr:hover {
-  background-color: #1F3457; /* Slightly lighter navy for hover */
-}
-
-/* Link styling */
-.detail-table .linkStyle {
-  color: #CE1141; /* Braves Red */
-  text-decoration: underline;
-}
-
-.detail-table .linkStyle:hover {
-  color: #ffffff;
 }
