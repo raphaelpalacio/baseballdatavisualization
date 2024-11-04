@@ -1,0 +1,25 @@
+/* Header.css */
+
+/* Apply navy background and white text to the header */
+.header {
+    background-color: #13274F; /* Dark Navy */
+    color: white;
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Styling for the title */
+.header-title {
+    color: white; /* White text for the title */
+    font-weight: bold;
+    font-size: 24px;
+    flex-grow: 1;
+}
+
+/* Styling for the Home button */
+.header-button {
+    color: white; /* White text for button */
+    text-decoration: none;
+    font-size: 16px;
+}

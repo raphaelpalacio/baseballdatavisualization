@@ -8,15 +8,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  TextField,
-  Typography,
-  Toolbar,
+  Paper
+//   Typography,
+//   Toolbar,
 } from '@mui/material';
+import '../styles/theme.css'; // Ensure this path is correct based on your file structure
 
 const HomePage = () => {
   const [data, setData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,41 +27,43 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value.toLowerCase());
-  };
-
   const handleRowClick = (id, isBatter) => {
     navigate(isBatter ? `/batter/${id}` : `/pitcher/${id}`);
   };
 
-  const filteredData = data.filter(
-    (row) =>
-      row.BATTER_ID.toString().includes(searchQuery) ||
-      row.PITCHER_ID.toString().includes(searchQuery)
-  );
-
   return (
-    <div>
-      <Toolbar>
-        <Typography variant="h5" component="div" style={{ flexGrow: 1 }}>
+    <div className="table-container">
+      {/* <Toolbar>
+        <Typography variant="h5" component="div" className="header" style={{ textAlign: 'center', marginBottom: '20px' }}>
           BattedBallData List
         </Typography>
-        <TextField
-          variant="outlined"
-          placeholder="Find players"
-          size="small"
-          onChange={handleSearch}
-        />
-      </Toolbar>
+      </Toolbar> */}
 
-      <TableContainer component={Paper}>
-        <Table>
+      <TableContainer component={Paper} className="table-container">
+        <Table className="table">
+          <TableHead>
+            <TableRow>
+              <TableCell className="header" style={{ backgroundColor: '#CE1141', fontWeight: 'bold' }}>BATTER_ID</TableCell>
+              <TableCell className="header" style={{ backgroundColor: '#CE1141', fontWeight: 'bold' }}>PITCHER_ID</TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
-            {filteredData.map((row) => (
-              <TableRow key={row.BATTER_ID + row.PITCHER_ID} hover style={{ cursor: 'pointer' }}>
-                <TableCell onClick={() => handleRowClick(row.BATTER_ID, true)}>{row.BATTER_ID}</TableCell>
-                <TableCell onClick={() => handleRowClick(row.PITCHER_ID, false)}>{row.PITCHER_ID}</TableCell>
+            {data.map((row, index) => (
+              <TableRow key={index} hover className="table-row">
+                <TableCell
+                  onClick={() => handleRowClick(row.BATTER_ID, true)}
+                  className="cellStyle"
+                  style={{ cursor: 'pointer' }}
+                >
+                  {row.BATTER_ID}
+                </TableCell>
+                <TableCell
+                  onClick={() => handleRowClick(row.PITCHER_ID, false)}
+                  className="cellStyle"
+                  style={{ cursor: 'pointer' }}
+                >
+                  {row.PITCHER_ID}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

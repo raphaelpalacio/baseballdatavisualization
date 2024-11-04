@@ -1,0 +1,56 @@
+/* DetailPage.css */
+
+/* Apply navy background and white text */
+body {
+  background-color: #13274F; /* Dark Navy */
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* Center-align title with bold and larger font size */
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* Table styling to mimic Excel sheet with white borders */
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Red background with white text for header cells */
+.detail-table th {
+  background-color: #CE1141; /* Braves Red */
+  color: white;
+  padding: 10px;
+  border: 1px solid white;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* White borders for all cells, with navy background for regular cells */
+.detail-table td {
+  background-color: #13274F; /* Dark Navy */
+  color: white;
+  padding: 8px;
+  border: 1px solid white;
+  text-align: center;
+}
+
+/* Excel-style hover effect for rows */
+.detail-table tr:hover {
+  background-color: #1F3457; /* Slightly lighter navy for hover */
+}
+
+/* Link styling */
+.detail-table .linkStyle {
+  color: #CE1141; /* Braves Red */
+  text-decoration: underline;
+}
+
+.detail-table .linkStyle:hover {
+  color: #ffffff;
+}

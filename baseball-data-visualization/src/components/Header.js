@@ -1,15 +1,16 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import '../styles/header.css';
 
 const Header = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="static" className="header">
       <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
+        <Typography variant="h6" className="header-title">
           Baseball Data Dashboard
         </Typography>
-        <Button color="inherit" component={Link} to="/">
+        <Button className="header-button" component={Link} to="/">
           Home
         </Button>
       </Toolbar>
